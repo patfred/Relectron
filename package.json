@@ -28,6 +28,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "electron": "^3.0.6"
+    "electron": "^3.0.6",
+    "electron-devtools-installer": "^2.2.4"
   }
 }
