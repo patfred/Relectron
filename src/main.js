@@ -7,7 +7,11 @@ let mainWindow;
 
 function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({ width: 800, height: 600 });
+  mainWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    titleBarStyle: 'hidden'
+  });
 
   // and load the index.html of the app.
   mainWindow.loadURL('http://localhost:3000');
@@ -18,13 +22,17 @@ function createWindow() {
       submenu: [
         {
           label: 'Open File',
-          accelerator: 'CmdOrCtrl+O',
+          accelerator: 'CmdOrCtrl+p',
           click() {
             openFile();
           }
         },
         {
-          label: 'Open Folder'
+          label: 'Open Folder',
+          accelerator: 'CmdOrCtrl+O',
+          click() {
+            openDir();
+          }
         }
       ]
     },
@@ -184,4 +192,24 @@ function openFile() {
   const file = files[0];
   const fileContent = fs.readFileSync(file).toString();
   mainWindow.webContents.send('new-file', fileContent);
+}
+
+function openDir() {
+  const directory = dialog.showOpenDialog(mainWindow, {
+    properties: ['openDirectory'],
+    filters: [
+      {
+        name: 'Markdown',
+        extensions: ['md', 'markdown', 'txt', 'rtf']
+      }
+    ]
+  });
+  if (!directory) return;
+  const dir = directory[0];
+  fs.readdir(dir, (err, files) => {
+    const filteredFiles = files.filter(file => file.includes('.md'));
+    const filePaths = filteredFiles.map(file => `${dir}/${file}`);
+
+    mainWindow.webContents.send('new-dir', filePaths, dir);
+  });
 }

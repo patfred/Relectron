@@ -5,8 +5,10 @@
   "dependencies": {
     "markdown-to-jsx": "^6.8.3",
     "react": "^16.6.0",
+    "react-ace": "^6.2.0",
     "react-dom": "^16.6.0",
-    "react-scripts": "2.1.0"
+    "react-scripts": "2.1.0",
+    "styled-components": "^4.0.3"
   },
   "main": "src/main.js",
   "scripts": {
